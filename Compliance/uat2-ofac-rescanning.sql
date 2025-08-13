@@ -1,4 +1,49 @@
 
+select * from screening_request sr where sr.transaction_reference_no = 94439;
+
+select
+	si.item_id 
+from
+	screening_item si
+where
+	si.ofac_reference_no in (
+	select
+		sr.ofac_reference_no
+	from
+		screening_request sr
+	where
+		sr.transaction_reference_no = 94439)
+
+select * from screening_result sr where sr.item_id in (
+select
+	si.item_id 
+from
+	screening_item si
+where
+	si.ofac_reference_no in (
+	select
+		sr.ofac_reference_no
+	from
+		screening_request sr
+	where
+		sr.transaction_reference_no = 94439)
+)
+
+select
+	*
+from
+	screening_request sr
+WHERE
+	status IS NULL
+	AND YEAR(created_date) = 2024
+	AND source_system = 'Payments';
+
+
+
+select * from screening_request sr ;
+
+-- type = 'Entity'
+
 -- APPROVED
 -- COMPLIANCE_REVIEW
 -- COMPLIANCE_SUBMITTED
@@ -15,7 +60,16 @@ FROM
 WHERE
 	LOWER(s.matching_name) NOT LIKE LOWER('%<STRONG>%');
 
-select * from screening_item s ;
+-- Spot check the score
+
+select * from screening_request sr where sr.score > 100;
+
+select * from screening_item s where s.score > 100;
+
+
+select * from screening_result sr ;
+
+select * from screening_request sr where sr.transaction_reference_no = 14911;
 
 -- SDN22692
 -- 018a182385db6e972272b6a7bac7d469490e25e77b53b6adb7d1c1dc

@@ -1,6 +1,8 @@
 show tables;
 
 
+
+
 select * from advance_search_details
 
 select * from fee

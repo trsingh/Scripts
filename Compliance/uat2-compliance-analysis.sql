@@ -1,5 +1,21 @@
 -- UAT2 Ofac Rescanning Data Analysis
 
+
+select
+	*
+from
+	screening_request sr
+where
+	sr.transaction_reference_no = 52311
+	
+select
+	*
+from
+	screening_item si
+where
+	si.ofac_reference_no = 1400530346337898496
+
+
 -- Highlighting Issue : Not resolved
 select
 	sr.transaction_reference_no ,

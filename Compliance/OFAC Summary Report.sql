@@ -125,6 +125,7 @@ select * from screening_item si ;
 
 
 -- OFAC Summary Report
+-- Ofac-Disposition-report
 select
 	sr.transaction_reference_no as "Tranx Reference No", 
 	sr.ofac_reference_no as "OFAC Reference No",
@@ -158,7 +159,26 @@ inner join screening_result sr2 on
 where
 	sr.score > 84
 	and sr.source_system = 'Payments'
-	and YEAR(sr.created_date) = 2025
-	and MONTH(sr.created_date) = 8
+	and YEAR(sr.created_date) = 2024
+	and MONTH(sr.created_date) = 12
+-- 	and DAYOFMONTH(sr.created_date) BETWEEN 1 AND 15
+	and DAYOFMONTH(sr.created_date) BETWEEN 16 AND 32
 order by
 	sr.last_updated_date asc;
+
+
+select
+	max(sr.created_date ),
+	min(sr.created_date )
+from
+	screening_request sr
+inner join screening_item si on
+	( sr.ofac_reference_no = si.ofac_reference_no )
+inner join screening_result sr2 on
+	( si.item_id = sr2.item_id )
+where
+	sr.score > 84
+	and sr.source_system = 'Payments'
+	and YEAR(sr.created_date) = 2024
+	and MONTH(sr.created_date) = 10
+	and DAYOFMONTH(sr.created_date) BETWEEN 16 AND 31
