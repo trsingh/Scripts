@@ -4,6 +4,10 @@ select * from ird_trade i ;
 
 select i.index_name from ird_leg i ;
 
+select * from ird_leg il ;
+
+
+
 -- IRD Dtcc Trade Report
 select
 	'' AS "Comment 1",

@@ -1,29 +1,16 @@
 show tables;
 
-select * from COMPONENT_MASTER cm ;
-
-select * from COMPONENT_RELEASE_MAPPING crm ;
-
-select * from ENV_MASTER em ;
-
-select * from PRODUCT_MASTER pm ;
-
-select * from DEPLOYMENT_HISTORY dh ;
-
-select * from DEPLOYMENT_SNAPSHOT ds ;
-
-select * from NOTIFICATION_MASTER nm ;
+-- COMPONENT_MASTER
+-- COMPONENT_RELEASE_MAPPING
+-- DEPLOYMENT_HISTORY
+-- DEPLOYMENT_SNAPSHOT
+-- ENV_MASTER
+-- NOTIFICATION_MASTER
+-- PRODUCT_MASTER
+-- RELEASE_ENV_MAPPING
 
 
-select
-	*
-from
-	DEPLOYMENT_HISTORY dh
-where
-	dh.comp_cd = 'galaxy-irs'
-order by dh.deployment_id desc;
-
-
+-- List of Envs : this might be obsolete
 select
 	distinct em.env_name
 from
@@ -31,41 +18,84 @@ from
 order by
 	em.env_name ;
 
+-- this gives better picture
 select
-	*
+	distinct dh.env_cd
+from
+	DEPLOYMENT_HISTORY dh
+order by dh.env_cd ;
+
+select
+	distinct ds.env_cd
 from
 	DEPLOYMENT_SNAPSHOT ds
 order by
-	ds.comp_cd ,
-	ds.env_cd ;
+	ds.env_cd;
+
+
+-- List of apps
+select
+	distinct cm.comp_name
+from
+	COMPONENT_MASTER cm
+order by cm.comp_name ;
+
 
 
 select
-	em.env_name,
-	ds.comp_cd ,
-	ds.comp_release ,
-	ds.build_number ,
-	ds.deployment_datetime ,
-	ds.updated_datetime ,
-	cm.group_code ,
-	cm.comp_release ,
-	cm.dev_branch 
+	distinct ds.comp_cd
 from
-	PRODUCT_MASTER pm
-inner join COMPONENT_MASTER cm on
-	(pm.product_master_cd = cm.product_master_cd)
-inner join ENV_MASTER em on
-	(em.product_master_cd = pm.product_master_cd)
-inner join DEPLOYMENT_SNAPSHOT ds on
-	(ds.comp_cd = cm.comp_cd
-		and ds.env_cd = em.env_cd)
-where 
-	pm.product_master_cd = 'bankos-na'
-	and cm.comp_cd = 'galaxy-compliance'
--- 	and em.env_name = 'UAT3'
--- 	and em.env_name in ('UAT1','UAT2','UAT3','UAT4')
--- 	and em.env_name = 'DEV3'
+	DEPLOYMENT_SNAPSHOT ds
+-- where
+-- 	ds.env_cd = 'DEV'
+order by ds.comp_cd ;
+
+
+
+select
+	ds.deployment_id ,
+	ds.comp_cd ,
+	ds.env_cd ,
+	ds.comp_release ,
+	ds.deployed_by ,
+	ds.build_number,
+	ds.deployment_datetime ,
+	ds.updated_by ,
+	ds.updated_datetime
+from
+	DEPLOYMENT_SNAPSHOT ds
+inner join (
+	select
+			ds0.env_cd ,
+			ds0.comp_cd ,
+			MAX(ds0.deployment_datetime) as latest_deployment_datetime
+	from
+			DEPLOYMENT_SNAPSHOT ds0
+	group by
+			ds0.env_cd ,
+			ds0.comp_cd 
+	) ds2 on
+	( ds.env_cd = ds2.env_cd
+		and ds.comp_cd = ds2.comp_cd
+		and ds.deployment_datetime = ds2.latest_deployment_datetime)
+WHERE 
+	YEAR(ds.deployment_datetime) = 2025
+	and MONTH(ds.deployment_datetime) >= 07
+-- 	and (ds.env_cd like 'QA%' or ds.env_cd like '%DEV%' or ds.env_cd like '%TEST%')
+	and (ds.env_cd like 'UAT%' or ds.env_cd like '%PFIX%' or ds.env_cd like '%PROD%')
+-- 	and ds.comp_cd like '%compliance%'
+	-- 	and em.env_name like 'PROD%'
+-- 	and ds.env_cd = 'DEV'
 order by
-	em.env_name ,
-	cm.comp_cd
+	ds.env_cd ,
+	ds.comp_cd,
+	ds.deployment_datetime desc;
+
+
+
+
+
+
+
+
 
