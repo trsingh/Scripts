@@ -103,14 +103,14 @@ select * from screening_result sr where sr.item_id = '32c70775-90cc-4560-8af0-8d
 
 select * from screening_result_backup sr where sr.item_id = '32c70775-90cc-4560-8af0-8d0e2f20c478'
 
-select
-	sr2.*
-from
-	screening_item si
-inner join screening_result sr2 on
-	(sr2.item_id = si.item_id )
-where
-	si.ofac_reference_no = '1359495886423842816'
+	select
+		sr2.*
+	from
+		screening_item si
+	inner join screening_result sr2 on
+		(sr2.item_id = si.item_id )
+	where
+		si.ofac_reference_no = '1359495886423842816'
 	
 select
 	sr2.*

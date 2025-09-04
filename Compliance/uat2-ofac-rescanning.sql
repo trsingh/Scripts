@@ -1,5 +1,11 @@
 
+
+select  distinct status from screening_request;
+
+
 select * from screening_request sr where sr.transaction_reference_no = 94439;
+sr.ofac_reference_no
+
 
 select
 	si.item_id 

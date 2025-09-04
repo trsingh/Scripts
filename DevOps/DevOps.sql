@@ -90,13 +90,13 @@ inner join (
 WHERE 
 	YEAR(ds.deployment_datetime) >= 2025
 	and MONTH(ds.deployment_datetime) >= 01
-	and not (ds.env_cd like 'UAT%'
-		or ds.env_cd like '%PFIX%'
-		or ds.env_cd like '%PROD%')
-	-- 	and (ds.env_cd like 'UAT%' or ds.env_cd like '%PFIX%' or ds.env_cd like '%PROD%')
-	and ds.comp_cd like '%teller%'
-	-- 	and em.env_name like 'PROD%'
-	-- 	and ds.env_cd like 'PFIX%'
+-- 	and not (ds.env_cd like 'UAT%' or ds.env_cd like '%PFIX%' or ds.env_cd like '%PROD%')
+		and (ds.env_cd like 'UAT%' or ds.env_cd like '%PFIX%' or ds.env_cd like '%PROD%')
+-- 	and ds.comp_cd like '%compliance%'
+	and ds.comp_cd like '%nostro%'
+-- 		and ds.env_cd like 'PROD%'
+-- 		and ds.env_cd like 'PFIX%'
+-- 			and ds.env_cd like 'TEST2%'
 	-- 	and ds.env_cd = 'DEV'
 order by
 	rank_col ,
@@ -114,7 +114,7 @@ where
 	and ds.env_cd like 'DEV%'
 
 
-
+select * from DEPLOYMENT_HISTORY dh ;
 
 
 

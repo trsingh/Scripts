@@ -160,9 +160,11 @@ where
 	sr.score > 84
 	and sr.source_system = 'Payments'
 	and YEAR(sr.created_date) = 2024
-	and MONTH(sr.created_date) = 12
--- 	and DAYOFMONTH(sr.created_date) BETWEEN 1 AND 15
-	and DAYOFMONTH(sr.created_date) BETWEEN 16 AND 32
+	and MONTH(sr.created_date) = 11
+	and DAYOFMONTH(sr.created_date) BETWEEN 1 AND 1
+-- 	and DAYOFMONTH(sr.created_date) BETWEEN 11 AND 20
+-- 	and DAYOFMONTH(sr.created_date) BETWEEN 21 AND 32
+-- 	and DAYOFMONTH(sr.created_date) BETWEEN 16 AND 32
 order by
 	sr.last_updated_date asc;
 
@@ -181,4 +183,5 @@ where
 	and sr.source_system = 'Payments'
 	and YEAR(sr.created_date) = 2024
 	and MONTH(sr.created_date) = 10
-	and DAYOFMONTH(sr.created_date) BETWEEN 16 AND 31
+-- 	and DAYOFMONTH(sr.created_date) BETWEEN 16 AND 31
+	and DAYOFMONTH(sr.created_date) BETWEEN 1 AND 15

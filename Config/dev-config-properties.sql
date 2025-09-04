@@ -1,5 +1,8 @@
 --DEV Config Properties --
 
+select * from properties p where p.prop_key like 'db.%'
+
+
 select * from properties p where p.prop_key like '%AwsRegion%'
 
 
